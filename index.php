@@ -3,18 +3,30 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 use App\HttpClient;
-use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\Utils;
 
 $client = HttpClient::getInstance();
 
-$promises = [
-    $client->getAsync('http://httpbin.org/get?source=request1'),
-    $client->getAsync('http://httpbin.org/get?source=request2'),
-    $client->getAsync('http://httpbin.org/get?source=request3'),
-];
-
-$responses = Promise\all($promises)->wait();
-
-foreach ($responses as $response) {
-    echo $response->getBody() . "\n";
+for ($i = 1; $i <= 25; $i++) {
+    $client->getAsync("https://jsonplaceholder.typicode.com/posts/{$i}")->wait();
 }
+
+$promises = [];
+
+for ($i = 1; $i <= 25; $i++) {
+    $promises[] = $client->getAsync("https://jsonplaceholder.typicode.com/posts/{$i}");
+}
+
+$responses = Utils::all($promises)->wait();
+
+$promises = [];
+
+for ($i = 1; $i <= 25; $i++) {
+    $promises[] = $client->getAsync("https://jsonplaceholder.typicode.com/posts/{$i}");
+}
+
+$responses = Utils::all($promises)->wait();
+
+// foreach ($responses as $response) {
+//     echo $response->getBody() . "\n";
+// }
