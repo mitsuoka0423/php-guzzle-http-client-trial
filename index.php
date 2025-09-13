@@ -21,7 +21,8 @@ measure_execution_time('New Client Each Request Execution', function () {
         $stack->push(LogMiddleware::create(new Logger()));
         $client = new Client(['handler' => $stack]);
 
-        $promises[] = $client->getAsync(TEST_SERVER_BASE_URL . "/?min_delay=0.01&max_delay=1");
+        $delay = $i * 0.5; // Calculate delay proportionally to i
+        $promises[] = $client->getAsync(TEST_SERVER_BASE_URL . "/?delay={$delay}");
     }
     Utils::all($promises)->wait();
 });
@@ -31,7 +32,8 @@ $client = HttpClient::getInstance();
 // Measure Sequential Execution
 measure_execution_time('Sequential Execution', function () use ($client) {
     for ($i = 1; $i <= 25; $i++) {
-        $client->getAsync(TEST_SERVER_BASE_URL . "/?min_delay=0.01&max_delay=1")->wait();
+        $delay = $i * 0.5; // Calculate delay proportionally to i
+        $client->getAsync(TEST_SERVER_BASE_URL . "/?delay={$delay}")->wait();
     }
 });
 
@@ -41,7 +43,8 @@ $client = HttpClient::getInstance();
 measure_execution_time('Parallel Execution', function () use ($client) {
     $promises = [];
     for ($i = 1; $i <= 25; $i++) {
-        $promises[] = $client->getAsync(TEST_SERVER_BASE_URL . "/?min_delay=0.01&max_delay=1");
+        $delay = $i * 0.5; // Calculate delay proportionally to i
+        $promises[] = $client->getAsync(TEST_SERVER_BASE_URL . "/?delay={$delay}");
     }
     Utils::all($promises)->wait();
 });
