@@ -14,6 +14,7 @@ function measure_execution_time(string $label, callable $process): void
 {
     $logger = new Logger();
 
+    $logger->log("");
     $logger->log("--- " . $label . " ---");
     $start_time = microtime(true);
 
@@ -22,7 +23,6 @@ function measure_execution_time(string $label, callable $process): void
     $end_time = microtime(true);
     $execution_time = $end_time - $start_time;
     $logger->log("Execution Time: " . $execution_time . " seconds");
-    $logger->log("");
 }
 
 /**
