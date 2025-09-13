@@ -1,16 +1,20 @@
 <?php
 
-$client = new \GuzzleHttp\Client();
-$response = $client->request('GET', 'https://api.github.com/repos/guzzle/guzzle');
+require_once __DIR__ . '/vendor/autoload.php';
 
-echo $response->getStatusCode(); // 200
-echo $response->getHeaderLine('content-type'); // 'application/json; charset=utf8'
-echo $response->getBody(); // '{"id": 1420053, "name": "guzzle", ...}'
+use App\HttpClient;
+use GuzzleHttp\Promise;
 
-// Send an asynchronous request.
-$request = new \GuzzleHttp\Psr7\Request('GET', 'http://httpbin.org');
-$promise = $client->sendAsync($request)->then(function ($response) {
-    echo 'I completed! ' . $response->getBody();
-});
+$client = HttpClient::getInstance();
 
-$promise->wait();
+$promises = [
+    $client->getAsync('http://httpbin.org/get?source=request1'),
+    $client->getAsync('http://httpbin.org/get?source=request2'),
+    $client->getAsync('http://httpbin.org/get?source=request3'),
+];
+
+$responses = Promise\all($promises)->wait();
+
+foreach ($responses as $response) {
+    echo $response->getBody() . "\n";
+}
