@@ -10,6 +10,9 @@ const server = http.createServer((req, res) => {
   // Get specified delay in seconds, default to 0.1 seconds if not provided
   const delay = parseFloat(reqUrl.query.delay) || 0.1;
 
+  // Log the incoming request
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} (Delay: ${delay.toFixed(3)}s)`);
+
   setTimeout(() => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');

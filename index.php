@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/src/helpers.php';
 
@@ -31,21 +33,19 @@ measure_execution_time('New Client Each Request Execution', function () use ($lo
     }
     Utils::all($promises)->wait();
 });
-
+$logger->log('想定処理時間: ' . expected_execution_time('sequential', NUM_OF_TRIALS, DELAY_COEFFICIENT));
 
 $client = HttpClient::getInstance();
-
-// Measure Sequential Execution
 measure_execution_time('Sequential Execution', function () use ($client) {
     for ($i = 1; $i <= NUM_OF_TRIALS; $i++) {
         $delay = $i * DELAY_COEFFICIENT;
         $client->getAsync(TEST_SERVER_BASE_URL . "?delay={$delay}")->wait();
     }
 });
+$logger->log('想定処理時間: ' . expected_execution_time('sequential', NUM_OF_TRIALS, DELAY_COEFFICIENT));
+
 
 $client = HttpClient::getInstance();
-
-// Measure Parallel Execution
 measure_execution_time('Parallel Execution', function () use ($client) {
     $promises = [];
     for ($i = 1; $i <= NUM_OF_TRIALS; $i++) {
@@ -54,3 +54,4 @@ measure_execution_time('Parallel Execution', function () use ($client) {
     }
     Utils::all($promises)->wait();
 });
+$logger->log('想定処理時間: ' . expected_execution_time('parallel', NUM_OF_TRIALS, DELAY_COEFFICIENT));
