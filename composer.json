@@ -8,7 +8,7 @@
         }
     },
     "scripts": {
-        "serve-test-server": "php -S localhost:8000 -t server/",
+        "serve-test-server": "node server/server.js",
         "run-tests": "php index.php | tee execution.log"
     }
 }
