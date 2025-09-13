@@ -7,12 +7,8 @@ const port = 8000;
 const server = http.createServer((req, res) => {
   const reqUrl = url.parse(req.url, true);
 
-  // Set default min and max delay in seconds
-  const minDelay = parseFloat(reqUrl.query.min_delay) || 0.01;
-  const maxDelay = parseFloat(reqUrl.query.max_delay) || 0.1;
-
-  // Generate a random delay
-  const delay = Math.random() * (maxDelay - minDelay) + minDelay;
+  // Get specified delay in seconds, default to 0.1 seconds if not provided
+  const delay = parseFloat(reqUrl.query.delay) || 0.1;
 
   setTimeout(() => {
     res.statusCode = 200;
