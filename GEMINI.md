@@ -30,3 +30,12 @@ This will execute the `index.php` file, which will make three asynchronous HTTP 
 *   The project follows the PSR-4 autoloading standard.
 *   The application's source code is located in the `src` directory under the `App` namespace.
 *   Log messages include timestamps in ISO 8601 format (JST with milliseconds).
+
+## Troubleshooting Gemini CLI Interactions
+
+### Multiline Git Commit Messages
+
+When interacting with the Gemini CLI, attempting to commit with multiline messages directly via `git commit -m "..."` may result in a "Command substitution using $(), <(), or >() is not allowed for security reasons" error. This is due to security restrictions in the shell command execution environment.
+
+**Workaround:**
+If a detailed multiline commit message is required, commit with a concise single-line message first. Afterward, you can manually amend the commit message using `git commit --amend` in your terminal to add the full details.
