@@ -6,7 +6,9 @@ class Logger
 {
     public function log(string $message): void
     {
-        echo "[LOG] " . $message . "\n";
+        $datetime = \DateTime::createFromFormat('U.u', microtime(true));
+        $datetime->setTimezone(new \DateTimeZone('Asia/Tokyo'));
+        echo "[" . $datetime->format('Y-m-d\TH:i:s.vP') . "] [LOG] " . $message . "\n";
     }
 }
 
