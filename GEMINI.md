@@ -1,13 +1,13 @@
 # Project Overview
 
-This is a PHP project that demonstrates how to use the Guzzle HTTP client to make asynchronous HTTP requests. The project includes a simple logging middleware that logs requests and responses to the console.
+This is a PHP project that demonstrates how to use the Guzzle HTTP client to make asynchronous HTTP requests. The project includes a custom logging middleware that logs requests and responses to the console with timestamps in ISO 8601 format (JST with milliseconds).
 
 The main components of the project are:
 
 *   **`index.php`**: The main entry point of the application. It creates an `HttpClient`, makes three asynchronous GET requests, and then prints the response bodies.
 *   **`src/HttpClient.php`**: A singleton class that creates a Guzzle HTTP client with a custom logging middleware.
 *   **`src/LogMiddleware.php`**: A Guzzle middleware that logs requests and responses.
-*   **`src/Logger.php`**: A simple class that logs messages to the console.
+*   **`src/Logger.php`**: A simple class that logs messages to the console, now with ISO 8601 formatted timestamps (JST with milliseconds).
 
 ## Building and Running
 
@@ -23,9 +23,10 @@ Once the dependencies are installed, you can run the project using the following
 php index.php
 ```
 
-This will execute the `index.php` file, which will make three asynchronous HTTP requests to `http://httpbin.org` and print the response bodies to the console. You will also see the log messages from the logging middleware.
+This will execute the `index.php` file, which will make three asynchronous HTTP requests to `http://httpbin.org` and print the response bodies to the console. You will also see the log messages from the logging middleware, now with detailed timestamps.
 
 ## Development Conventions
 
 *   The project follows the PSR-4 autoloading standard.
 *   The application's source code is located in the `src` directory under the `App` namespace.
+*   Log messages include timestamps in ISO 8601 format (JST with milliseconds).
